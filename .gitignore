@@ -19,6 +19,22 @@ target/
 *.iml
 *.ipr
 
+# Logs
+*.log
+
+# OS files
+.DS_Store
+
+# Environment
+.env
+
+# Uploads
+uploads/
+
+# Build
+*.class
+
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
