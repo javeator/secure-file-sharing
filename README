@@ -1,0 +1,152 @@
+# Secure File Sharing API
+
+REST API сервис для безопасного обмена файлами с поддержкой:
+
+* загрузки файлов
+* скачивания по ссылке
+* защиты паролем
+* ограничения срока жизни (TTL)
+
+---
+
+## Функциональность
+
+* Upload файлов
+* Download файлов по ссылке
+* Защита файлов паролем (BCrypt)
+* Ограничение времени жизни файла (TTL)
+* Подсчёт количества скачиваний
+
+---
+
+## Технологии
+
+* Java 17+
+* Spring Boot
+* Spring Data JPA
+* PostgreSQL
+* Spring Security (BCrypt)
+* Maven
+
+---
+
+## API Endpoints
+
+### Upload файла
+
+POST `/files`
+
+**form-data:**
+
+* `file` — файл
+* `password` (optional) — пароль
+* `ttlMinutes` (optional) — срок жизни в минутах
+
+**Response:**
+
+```json
+{
+  "fileId": "uuid",
+  "downloadUrl": "http://localhost:8080/files/{id}"
+}
+```
+
+---
+
+### Скачать файл
+
+GET `/files/{id}`
+
+**Query params:**
+
+* `password` (optional)
+
+---
+
+## Безопасность
+
+* Пароли не хранятся в открытом виде
+* Используется BCrypt-хеширование
+* Доступ к файлу возможен только при корректном пароле
+
+---
+
+## TTL (Time To Live)
+
+* Срок жизни задаётся при загрузке файла
+* После истечения времени файл становится недоступен
+
+---
+
+## Запуск проекта
+
+### 1. Клонирование репозитория
+
+```bash
+git clone https://github.com/javeator/secure-file-sharing.git
+cd secure-file-sharing
+```
+
+---
+
+### 2. Настройка базы данных
+
+Создать PostgreSQL базу:
+
+```
+secure_file_sharing
+```
+
+---
+
+### 3. Конфигурация application.yml
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/secure_file_sharing
+    username: postgres
+    password: your_password
+```
+
+---
+
+### 4. Запуск
+
+```bash
+./mvnw spring-boot:run
+```
+
+---
+
+## Структура проекта
+
+```
+controller/
+service/
+repository/
+entity/
+security/
+```
+
+---
+
+## Пример использования
+
+1. Загрузить файл через Postman
+2. Получить ссылку
+3. Скачать файл по URL
+4. При необходимости передать пароль
+
+---
+
+## Примечания
+
+* Файлы сохраняются локально в папке `uploads/`
+* Папка `uploads/` исключена из Git через `.gitignore`
+
+---
+
+## Автор
+
+Skripnikov Egor
