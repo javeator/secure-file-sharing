@@ -1,5 +1,6 @@
 package com.example.fileshare.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.core.io.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,8 @@ public class FileController {
 
     private final FileService fileService;
 
-    @PostMapping
+    @Operation(summary = "Upload file")
+    @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<?> upload(
             @RequestParam("file") MultipartFile file,
             @RequestParam(value = "password", required = false) String password,
@@ -24,6 +26,7 @@ public class FileController {
     ) {
         return ResponseEntity.ok(fileService.upload(file, password, ttlMinutes));
     }
+    @Operation(summary = "Download file")
     @GetMapping("/{id}")
     public ResponseEntity<Resource> download(
             @PathVariable UUID id,
